@@ -71,30 +71,26 @@ while t<Max_iter
         l=(a2-1)*rand+1;   %  parameters in Eq. (2.5)
         
         p = rand();        % p in Eq. (2.6)
-        
-        for j=1:size(Positions,2)
-            
+                    
             if p<0.5   
                 if abs(A)>=1
                     rand_leader_index = floor(SearchAgents_no*rand()+1);
                     X_rand = Positions(rand_leader_index, :);
-                    D_X_rand=abs(C*X_rand(j)-Positions(i,j)); % Eq. (2.7)
-                    Positions(i,j)=X_rand(j)-A*D_X_rand;      % Eq. (2.8)
+                    D_X_rand=abs(C*X_rand-Positions(i,:)); % Eq. (2.7)
+                    Positions(i,:)=X_rand-A*D_X_rand;      % Eq. (2.8)
                     
                 elseif abs(A)<1
-                    D_Leader=abs(C*Leader_pos(j)-Positions(i,j)); % Eq. (2.1)
-                    Positions(i,j)=Leader_pos(j)-A*D_Leader;      % Eq. (2.2)
+                    D_Leader=abs(C*Leader_pos-Positions(i,:)); % Eq. (2.1)
+                    Positions(i,:)=Leader_pos-A*D_Leader;      % Eq. (2.2)
                 end
                 
             elseif p>=0.5
               
-                distance2Leader=abs(Leader_pos(j)-Positions(i,j));
+                distance2Leader=abs(Leader_pos-Positions(i,:));
                 % Eq. (2.5)
-                Positions(i,j)=distance2Leader*exp(b.*l).*cos(l.*2*pi)+Leader_pos(j);
+                Positions(i,:)=distance2Leader*exp(b.*l).*cos(l.*2*pi)+Leader_pos;
                 
             end
-            
-        end
     end
     t=t+1;
     Convergence_curve(t)=Leader_score;
